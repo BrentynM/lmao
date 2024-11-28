@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .carousel {
+            display: flex;
+            overflow-x: scroll;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .carousel-item {
+            margin: 10px;
+            flex: 0 0 auto;
+        }
+        .carousel-item img {
+            max-width: 200px;
+            border-radius: 8px;
+        }
+        .carousel-item p {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Welcome to the Movie Browsing App</h2>
+    <p>This is the homepage.</p>
+    <div class="carousel">
+        {% for movie in movies %}
+        <div class="carousel-item">
+            <a href="{% url 'movie_detail' movie.id %}">
+                <img src="https://image.tmdb.org/t/p/w200{{ movie.poster_path }}" alt="{{ movie.title }}">
+                <p>{{ movie.title }}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% if user.is_superuser %}
+    <div>
+        <a href="{% url 'admin_movie_search' %}">
+            <button>Add Movies</button>
+        </a>
+    </div>
+    <div>
+        <a href="{% url 'add_theater' %}">
+            <button>Add Theater</button>
+        </a>
+    </div>
+    {% endif %}
+</body>
+</html>

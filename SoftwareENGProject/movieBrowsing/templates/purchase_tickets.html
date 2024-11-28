@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Tickets</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .payment-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .payment-bubble {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            transition: all 0.3s ease;
+        }
+        .payment-bubble:hover {
+            background-color: #f0f0f0;
+            border-color: #007bff;
+        }
+        .payment-bubble.selected {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .payment-bubble img {
+            max-width: 40px;
+            max-height: 40px;
+        }
+        .submit-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+        }
+        .card-info input {
+            width: 48%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Purchase Tickets for {{ movie.title }}</h1>
+    <p>Showtime: {{ showtime.showtime }} at {{ showtime.theater.name }}</p>
+    <label>Payment Method:</label>
+        <div class="payment-options">
+            <div class="payment-bubble" onclick="selectPayment(this)" data-payment="credit-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/349/349228.png" alt="Credit Card">
+            </div>
+            <div class="payment-bubble" onclick="selectPayment(this)" data-payment="Apple Pay">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968144.png" alt="Apple Pay">
+            </div>
+            <div class="payment-bubble" onclick="selectPayment(this)" data-payment="google-pay">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968245.png" alt="Google Pay">
+            </div>
+        </div>
+
+        <div id="card-info">
+            <label for="card-number">Card Number:</label>
+            <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+
+            <div class="card-info">
+                <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+                <input type="text" id="cvv" name="cvv" placeholder="CVV" required>
+            </div>
+        </div>
+
+        <label for="name">Cardholder Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <button type="submit" class="submit-btn">Purchase Ticket</button>
+    </form>
+
+    <script>
+        function selectPayment(element) {
+            // Remove 'selected' class from all payment bubbles
+            document.querySelectorAll('.payment-bubble').forEach(bubble => {
+                bubble.classList.remove('selected');
+            });
+            // Add 'selected' class to the clicked bubble
+            element.classList.add('selected');
+            
+            // Hide/show card number field based on payment method
+            var cardInfo = document.getElementById('card-info');
+            if (element.dataset.payment === 'Apple Pay') {
+                cardInfo.style.display = 'none';
+            } else {
+                cardInfo.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+
+</html>

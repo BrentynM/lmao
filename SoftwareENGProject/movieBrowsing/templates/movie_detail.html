@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        img {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+        p {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .showtime-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>{{ movie.title }}</h2>
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+        <p>{{ movie.overview }}</p>
+        <p>Release Date: {{ movie.release_date }}</p>
+        <p>Rating: {{ movie.vote_average }}</p>
+        <ul>
+            {% for showtime in showtimes %}
+            <li class="showtime-item">
+                <span>{{ showtime.showtime }} at {{ showtime.theater.name }}</span>
+                <a href="{% url 'purchase_tickets' movie.id %}?showtime_id={{ showtime.id }}">
+                    <button>Purchase Tickets</button>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <h3>Showtimes</h3>
+
+    {% if user.is_superuser %}
+    <div>
+        <a href="{% url 'add_showtime' movie.id %}">
+            <button>Add Showtime</button>
+        </a>
+    </div>
+    {% endif %}
+</body>
+</html>
